@@ -1535,3 +1535,367 @@ end
 end
 --return create
 --
+local window = create:Win()
+local tap1 = window:addtap("Main")
+local page1 = tap1:addpage()
+local page2 = tap1:addpage()
+players = {}
+
+for i, v in pairs(game.Players:GetChildren()) do
+    table.insert(players, v.Name)
+end
+
+local gunl = {}
+
+for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+    table.insert(gunl, v.Name)
+end
+page1:Ti("Main")
+
+local slplr = page1:DropDown("Select Player","Select",players,function(list)
+    _G.PLAYERSELECT = list
+end)
+local slgn = page1:DropDown("Select Gun","Select",gunl,function(list)
+    _G.GUNSELECT = list
+end)
+page1:Button("Refesh Player",function()
+table.clear(players)
+for i, v in pairs(game.Players:GetChildren()) do
+    table.insert(players, v.Name)
+end
+end)
+page1:Button("Refesh Gun",function()
+table.clear(gunl)
+for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+    table.insert(gunl, v.Name)
+end
+end)
+page1:Button1("Tween",function()
+       function TP(P1,P2)
+    local Distance = (P1 - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+    if Distance < 1000 then
+        Speed = 150
+    elseif Distance >= 1000 then
+        Speed = 350
+    end
+    game:GetService("TweenService"):Create(
+        game.Players.LocalPlayer.Character.HumanoidRootPart,
+        TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+        {CFrame = P2}
+    ):Play()
+    wait(Distance/Speed)
+end
+
+TP(game.Players[_G.PLAYERSELECT].Character.HumanoidRootPart.Position, game.Players[_G.PLAYERSELECT].Character.HumanoidRootPart.CFrame)
+end)
+page1:Toggle("Spectate Player",nil,function(value)
+        _G.Spectate = value
+        local plr1 = game.Players.LocalPlayer.Character.Humanoid
+        local plr2 = game.Players:FindFirstChild(_G.PLAYERSELECT)
+        repeat
+            wait(.1)
+            game.Workspace.Camera.CameraSubject = plr2.Character.Humanoid
+        until _G.Spectate == false
+        game.Workspace.Camera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+end)
+page1:Toggle("Aimbot",nil,function(value)
+        if _G.PLAYERSELEC == "" and value then
+        else
+            AimbotLock = value
+        end
+end)
+local lp = game:GetService("Players").LocalPlayer
+local mouse = lp:GetMouse()
+mouse.Button1Down:Connect(
+    function()
+        if AimbotLock and game.Players.LocalPlayer.Character:FindFirstChild(_G.GUNSELECT) then
+            local args = {
+                [1] = game:GetService("Players"):FindFirstChild(_G.PLAYERSELECT).Character.HumanoidRootPart.Position,
+                [2] = game:GetService("Players"):FindFirstChild(_G.PLAYERSELECT).Character.HumanoidRootPart
+            }
+            game:GetService("Players").LocalPlayer.Character[_G.GUNSELECT].RemoteFunctionShoot:InvokeServer(
+                unpack(args)
+            )
+        end
+    end
+)
+page2:Ti("Main2")
+
+page2:Toggle("AutoShootGun",nil,function(value)
+            _G.AutoShoot = value
+if _G.AutoShoot == true then
+while _G.AutoShoot do wait()
+    game:GetService "VirtualUser":CaptureController()
+    game:GetService "VirtualUser":Button1Down(Vector2.new(1280, 672))
+    game:GetService "VirtualUser":CaptureController()
+    game:GetService "VirtualUser":Button1Down(Vector2.new(1280, 672))
+    game:GetService "VirtualUser":CaptureController()
+    game:GetService "VirtualUser":Button1Down(Vector2.new(1280, 672))
+    game:GetService "VirtualUser":CaptureController()
+    game:GetService "VirtualUser":Button1Down(Vector2.new(1280, 672))
+end
+end
+end)
+page2:Toggle("Kill [Gun]",nil,function(value)
+        AimbotLock = value
+    _G.AutoShoot = value
+    _G.KillGun = value
+    if _G.KillGun == true then
+    while _G.KillGun do wait()
+    function TP(P1,P2)
+    local Distance = (P1 - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+    if Distance < 1000 then
+        Speed = 450
+    elseif Distance >= 1000 then
+        Speed = 350
+    end
+    game:GetService("TweenService"):Create(
+        game.Players.LocalPlayer.Character.HumanoidRootPart,
+        TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+        {CFrame = P2}
+    ):Play()
+    wait(Distance/Speed)
+end
+
+TP(game.Players[_G.PLAYERSELECT].Character.HumanoidRootPart.Position, game.Players[_G.PLAYERSELECT].Character.HumanoidRootPart.CFrame * CFrame.new(0,60,0))
+    end
+end
+    game.Players[_G.PLAYERSELECT].Character.HumanoidRootPart.Size = Vector3.new(10,10,10)
+    game.Players[_G.PLAYERSELECT].Character.HumanoidRootPart.Transparency = 1
+end)
+page2:Toggle("Kill [Gun+HopPc]",nil,function(value)
+        _G.KillGunHop = value
+    AimbotLock = value
+    _G.AutoShoot = value
+    if _G.KillGunHop == true then
+    while _G.KillGunHop do wait()
+function TP(P1,P2)
+    local Distance = (P1 - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+    if Distance < 1000 then
+        Speed = 450
+    elseif Distance >= 1000 then
+        Speed = 350
+    end
+    game:GetService("TweenService"):Create(
+        game.Players.LocalPlayer.Character.HumanoidRootPart,
+        TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+        {CFrame = P2}
+    ):Play()
+    wait(Distance/Speed)
+end
+
+TP(game.Players[_G.PLAYERSELECT].Character.HumanoidRootPart.Position, game.Players[_G.PLAYERSELECT].Character.HumanoidRootPart.CFrame * CFrame.new(0,60,0))
+    end
+end
+_G.Hop = value
+    if _G.Hop == true then
+while _G.Hop do wait()
+if game.Players[_G.PLAYERSELECT].Character.Humanoid.Health == 0 then
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+  Title = "Seen-Hub",
+  Text = "Hoping"
+})
+wait(1)
+local PlaceID = game.PlaceId
+        local AllIDs = {}
+        local foundAnything = ""
+        local actualHour = os.date("!*t").hour
+        local Deleted = false
+        local File =
+            pcall(
+            function()
+                AllIDs = game:GetService("HttpService"):JSONDecode(readfile("NotSameServers.json"))
+            end
+        )
+        if not File then
+            table.insert(AllIDs, actualHour)
+            writefile("NotSameServers.json", game:GetService("HttpService"):JSONEncode(AllIDs))
+        end
+        function TPReturner()
+            local Site
+            if foundAnything == "" then
+                Site =
+                    game.HttpService:JSONDecode(
+                    game:HttpGet(
+                        "https://games.roblox.com/v1/games/" .. PlaceID .. "/servers/Public?sortOrder=Asc&limit=100"
+                    )
+                )
+            else
+                Site =
+                    game.HttpService:JSONDecode(
+                    game:HttpGet(
+                        "https://games.roblox.com/v1/games/" ..
+                            PlaceID .. "/servers/Public?sortOrder=Asc&limit=100&cursor=" .. foundAnything
+                    )
+                )
+            end
+            local ID = ""
+            if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+                foundAnything = Site.nextPageCursor
+            end
+            local num = 0
+            for i, v in pairs(Site.data) do
+                local Possible = true
+                ID = tostring(v.id)
+                if tonumber(v.maxPlayers) > tonumber(v.playing) then
+                    for _, Existing in pairs(AllIDs) do
+                        if num ~= 0 then
+                            if ID == tostring(Existing) then
+                                Possible = false
+                            end
+                        else
+                            if tonumber(actualHour) ~= tonumber(Existing) then
+                                local delFile =
+                                    pcall(
+                                    function()
+                                        delfile("NotSameServers.json")
+                                        AllIDs = {}
+                                        table.insert(AllIDs, actualHour)
+                                    end
+                                )
+                            end
+                        end
+                        num = num + 1
+                    end
+                    if Possible == true then
+                        table.insert(AllIDs, ID)
+                        wait()
+                        pcall(
+                            function()
+                                writefile("NotSameServers.json", game:GetService("HttpService"):JSONEncode(AllIDs))
+                                wait()
+                                game:GetService("TeleportService"):TeleportToPlaceInstance(
+                                    PlaceID,
+                                    ID,
+                                    game.Players.LocalPlayer
+                                )
+                            end
+                        )
+                        wait(4)
+                    end
+                end
+            end
+        end
+
+        function Teleport()
+            while wait() do
+                pcall(
+                    function()
+                        TPReturner()
+                        if foundAnything ~= "" then
+                            TPReturner()
+                        end
+                    end
+                )
+            end
+        end
+
+        Teleport()
+end
+end
+end
+end)
+page2:Ti("BetaFunction")
+local sly = page2:DropDown("Select YourSelf","Select",players,function(sl)
+    bta = sl
+end)
+page2:Button("GunNoCoolDown",function()
+    game.Workspace.Characters[bta][_G.GUNSELECT].Cooldown.Value = 0
+end)
+page2:Button("Hop[Pc]",function()
+    local PlaceID = game.PlaceId
+        local AllIDs = {}
+        local foundAnything = ""
+        local actualHour = os.date("!*t").hour
+        local Deleted = false
+        local File =
+            pcall(
+            function()
+                AllIDs = game:GetService("HttpService"):JSONDecode(readfile("NotSameServers.json"))
+            end
+        )
+        if not File then
+            table.insert(AllIDs, actualHour)
+            writefile("NotSameServers.json", game:GetService("HttpService"):JSONEncode(AllIDs))
+        end
+        function TPReturner()
+            local Site
+            if foundAnything == "" then
+                Site =
+                    game.HttpService:JSONDecode(
+                    game:HttpGet(
+                        "https://games.roblox.com/v1/games/" .. PlaceID .. "/servers/Public?sortOrder=Asc&limit=100"
+                    )
+                )
+            else
+                Site =
+                    game.HttpService:JSONDecode(
+                    game:HttpGet(
+                        "https://games.roblox.com/v1/games/" ..
+                            PlaceID .. "/servers/Public?sortOrder=Asc&limit=100&cursor=" .. foundAnything
+                    )
+                )
+            end
+            local ID = ""
+            if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+                foundAnything = Site.nextPageCursor
+            end
+            local num = 0
+            for i, v in pairs(Site.data) do
+                local Possible = true
+                ID = tostring(v.id)
+                if tonumber(v.maxPlayers) > tonumber(v.playing) then
+                    for _, Existing in pairs(AllIDs) do
+                        if num ~= 0 then
+                            if ID == tostring(Existing) then
+                                Possible = false
+                            end
+                        else
+                            if tonumber(actualHour) ~= tonumber(Existing) then
+                                local delFile =
+                                    pcall(
+                                    function()
+                                        delfile("NotSameServers.json")
+                                        AllIDs = {}
+                                        table.insert(AllIDs, actualHour)
+                                    end
+                                )
+                            end
+                        end
+                        num = num + 1
+                    end
+                    if Possible == true then
+                        table.insert(AllIDs, ID)
+                        wait()
+                        pcall(
+                            function()
+                                writefile("NotSameServers.json", game:GetService("HttpService"):JSONEncode(AllIDs))
+                                wait()
+                                game:GetService("TeleportService"):TeleportToPlaceInstance(
+                                    PlaceID,
+                                    ID,
+                                    game.Players.LocalPlayer
+                                )
+                            end
+                        )
+                        wait(4)
+                    end
+                end
+            end
+        end
+
+        function Teleport()
+            while wait() do
+                pcall(
+                    function()
+                        TPReturner()
+                        if foundAnything ~= "" then
+                            TPReturner()
+                        end
+                    end
+                )
+            end
+        end
+
+        Teleport()
+end)
