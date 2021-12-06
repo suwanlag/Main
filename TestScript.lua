@@ -1,3 +1,4 @@
+if game.PlaceId == 2753915549 or game.PlaceId == 4442272183 or game.PlaceId == 7449423635 then
 do 
     local ui =  game:GetService("CoreGui"):FindFirstChild("Atom Lib") 
     if ui then
@@ -1540,6 +1541,7 @@ local page1 = tap1:addpage()
 local page2 = tap1:addpage()
 local tap2 = window:addtap("AutoFarm")
 local page3 = tap2:addpage()
+local page4 = tap2:addpage()
 players = {}
 
 for i, v in pairs(game.Players:GetChildren()) do
@@ -2486,8 +2488,9 @@ page3:Toggle("AutoFarm",nil,function(vu)
     _G.AutoFarm = vu
 	_G.Main = vu 
 	_G.FastFarm = vu
+	_G.AutoEquiped = vu
 end)
-page3:Toggle("AutoQuest",nil,function(vu)
+page3:Toggle("AutoQuest",true,function(vu)
     AutoQuest = vu
 end)
 page3:Toggle("FastAttack",nil,function(vu)
@@ -2698,3 +2701,87 @@ spawn(function()
 		end)
 	end)
 end)
+page4:Ti("Mob")
+page4:Toggle("MobAura[Teleport]",nil,function(vu)
+    _G.MobAura = vu
+    _G.AutoEquiped = vu
+if _G.MobAura == true then
+while _G.MobAura do wait()
+for i,we in pairs(game.Workspace.Enemies:GetDescendants()) do
+if we.Name == "HumanoidRootPart" then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,30,3)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,30,3)
+local RigC = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework) 
+kkii = require(game.ReplicatedStorage.Util.CameraShaker) 
+kkii:Stop()
+RigC.activeController.hitboxMagnitude = 60
+RigC.activeController.timeToNextAttack = 0.5
+game:GetService'VirtualUser':CaptureController()
+game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+end
+end
+end
+end
+end)
+page4:Toggle("MobAura[Tween]HaveBug",nil,function(vu)
+    _G.MobAuraT = vu
+    _G.AutoEquiped = vu
+if _G.MobAuraT == true then
+while _G.MobAuraT do wait()
+for i,we in pairs(game.Workspace.Enemies:GetDescendants()) do
+if we.Name == "HumanoidRootPart" then
+function TP(P1,P2)
+    local Distance = (P1 - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+    if Distance < 1000 then
+        Speed = 150
+    elseif Distance >= 1000 then
+        Speed = 350
+    end
+    game:GetService("TweenService"):Create(
+        game.Players.LocalPlayer.Character.HumanoidRootPart,
+        TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+        {CFrame = P2}
+    ):Play()
+    wait(Distance/Speed)
+
+end
+TP(Vector3.new(-1193.0433349609, 4.7520503997803, 3870.5397949219), we.CFrame * CFrame.new(0,30,3))
+local RigC = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework) 
+kkii = require(game.ReplicatedStorage.Util.CameraShaker) 
+kkii:Stop()
+RigC.activeController.hitboxMagnitude = 60
+RigC.activeController.timeToNextAttack = 0.5
+game:GetService'VirtualUser':CaptureController()
+game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+end
+end
+end
+end
+end)
+local slwp = page4:DropDown("Select Weapon","Select",gunl,function(X)
+    MobWeapon = X
+end)
+spawn(function()
+while wait() do
+if _G.AutoEquiped then
+pcall(function()
+game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(MobWeapon))
+end)
+end
+end
+end)
+page4:Toggle("GunMasteryFarm",nil,function(vu)
+    _G.MobAura = vu
+    _G.AutoEquiped = vu
+if _G.MobAura == true then
+while _G.MobAura do wait()
+for i,we in pairs(game.Workspace.Enemies:GetDescendants()) do
+if we.Name == "HumanoidRootPart" then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,30,3)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,30,3)
+end
+end
+end
+end
+end)
+end
