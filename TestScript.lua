@@ -1540,8 +1540,15 @@ local tap1 = window:addtap("Main")
 local page1 = tap1:addpage()
 local page2 = tap1:addpage()
 local tap2 = window:addtap("AutoFarm")
+local tap3 = window:addtap("AutoStats")
+local tap4 = window:addtap("Teleport")
+local tap5 = window:addtap("Misc")
 local page3 = tap2:addpage()
 local page4 = tap2:addpage()
+local page5 = tap3:addpage()
+local page6 = tap4:addpage()
+local page7 = tap4:addpage()
+local page8 = tap5:addpage()
 players = {}
 
 for i, v in pairs(game.Players:GetChildren()) do
@@ -2518,10 +2525,9 @@ spawn(function()
 _G.AutoAttack = vu
 if _G.AutoAttack == true then
 while _G.AutoAttack do wait()
+    game:GetService'VirtualUser':CaptureController()
     game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
-    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
-    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
-    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+    game:GetService'VirtualUser':CaptureController()
     game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
 end
 end
@@ -2856,6 +2862,160 @@ if _G.AutoEquiped then
 pcall(function()
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(MobWeapon))
 end)
+end
+end
+end)
+page5:Ti("AutoStats")
+page5:Toggle("Melee",nil, function(value)
+_G.Melee = value
+if _G.Melee == true then
+while _G.Melee do wait(1)
+local A_1 = "AddPoint"
+local A_2 = "Melee"
+local A_3 = PointStats
+local Event = game:GetService("ReplicatedStorage").Remotes["CommF_"]
+Event:InvokeServer(A_1, A_2, A_3)
+end
+end
+end)
+page5:Toggle("Defense",nil, function(value)
+    _G.Defense = value
+if _G.Defense == true then
+while _G.Defense do wait(1)
+local A_1 = "AddPoint"
+local A_2 = "Defense"
+local A_3 = PointStats
+local Event = game:GetService("ReplicatedStorage").Remotes["CommF_"]
+Event:InvokeServer(A_1, A_2, A_3)
+end
+end
+end)
+page5:Toggle("Sword",nil, function(value)
+    _G.Sword = value
+if _G.Sword == true then
+while _G.Sword do wait(1)
+local A_1 = "AddPoint"
+local A_2 = "Sword"
+local A_3 = PointStats
+local Event = game:GetService("ReplicatedStorage").Remotes["CommF_"]
+Event:InvokeServer(A_1, A_2, A_3)
+end
+end
+end)
+page5:Toggle("Gun",nil, function(value)
+    _G.Gun = value
+if _G.Gun == true then
+while _G.Gun do wait(1)
+local A_1 = "AddPoint"
+local A_2 = "Gun"
+local A_3 = PointStats
+local Event = game:GetService("ReplicatedStorage").Remotes["CommF_"]
+Event:InvokeServer(A_1, A_2, A_3)
+end
+end
+end)
+page5:Toggle("Bloxfruit",nil, function(value)
+    _G.Bloxfruit = value
+if _G.Bloxfruit == true then
+while _G.Bloxfruit do wait(1)
+local A_1 = "AddPoint"
+local A_2 = "Demon Fruit"
+local A_3 = PointStats
+local Event = game:GetService("ReplicatedStorage").Remotes["CommF_"]
+Event:InvokeServer(A_1, A_2, A_3)
+end
+end
+end)
+local statslider = page5:Slder("Slider",1,100,1, function(value)
+    PointStats = value
+end)
+page6:Ti("MainTeleport")
+page7:Ti("SecondTeleport")
+page8:Ti("Misc")
+page8:Toggle("Invisible",nil,function(value)
+        _G.Invisible = value
+end)
+	 
+	 spawn(function()
+	   while wait(1) do
+		  if _G.Invisible then
+			pcall(function()
+			  game.Players.LocalPlayer.Character.LowerTorso:Destroy()
+			end)
+		  end
+	   end
+end)
+page8:Button("FastMode",function()
+    local decalsyeeted = true -- Leaving this on makes games look shitty but the fps goes up by at least 20.
+			local g = game
+			local w = g.Workspace
+			local l = g.Lighting
+			local t = w.Terrain
+			t.WaterWaveSize = 0
+			t.WaterWaveSpeed = 0
+			t.WaterReflectance = 0
+			t.WaterTransparency = 0
+			l.GlobalShadows = false
+			l.FogEnd = 9e9
+			l.Brightness = 0
+			settings().Rendering.QualityLevel = "Level01"
+			for i, v in pairs(g:GetDescendants()) do
+				if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then 
+					v.Material = "Plastic"
+					v.Reflectance = 0
+				elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
+					v.Transparency = 1
+				elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+					v.Lifetime = NumberRange.new(0)
+				elseif v:IsA("Explosion") then
+					v.BlastPressure = 1
+					v.BlastRadius = 1
+				elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+					v.Enabled = false
+				elseif v:IsA("MeshPart") then
+					v.Material = "Plastic"
+					v.Reflectance = 0
+					v.TextureID = 10385902758728957
+				end
+			end
+			for i, e in pairs(l:GetChildren()) do
+				if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
+					e.Enabled = false
+				end
+			end
+end)
+page8:Toggle("WalkOnWater",nil,function(w)
+    _G.WalkWater = w
+		if _G.WalkWater == true then
+			game.Players.LocalPlayer.Data.DevilFruit.Value = ("Ice-Ice")
+		elseif _G.WalkWater == false then
+			game.Players.LocalPlayer.Data.DevilFruit.Value = ("")
+		end
+end)
+page8:Toggle("TweenChest[Banrisk]",nil,function(f)
+_G.AutoChest = f
+if _G.AutoChest == true then
+while _G.AutoChest do wait()
+    for i,ce in pairs(game.Workspace:GetDescendants()) do
+if ce.Name == "Chest1" or ce.Name == "Chest2" or ce.Name == "Chest3" then
+function TP(P1,P2)
+    local Distance = (P1 - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+    if Distance < 1000 then
+        Speed = 450
+    elseif Distance >= 1000 then
+        Speed = 300
+    end
+    game:GetService("TweenService"):Create(
+        game.Players.LocalPlayer.Character.HumanoidRootPart,
+        TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+        {CFrame = P2}
+    ):Play()
+    wait(Distance/Speed)
+end
+
+TP(ce.Position, ce.CFrame)
+end
+end
 end
 end
 end)
