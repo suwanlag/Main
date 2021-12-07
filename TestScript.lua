@@ -2487,14 +2487,63 @@ end
 page3:Toggle("AutoFarm",nil,function(vu)
     _G.AutoFarm = vu
 	_G.Main = vu 
-	_G.FastFarm = vu
 	_G.AutoEquiped = vu
 end)
 page3:Toggle("AutoQuest",true,function(vu)
     AutoQuest = vu
 end)
 page3:Toggle("FastAttack",nil,function(vu)
-   _G.FastFarm = vu
+   _G.FastAttk = vu
+spawn(function()
+    local cam = require(game.ReplicatedStorage.Util.CameraShaker)
+    local Rig = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
+        game:GetService('RunService').Heartbeat:Connect(function()
+            if _G.FastAttk then
+                pcall(function()
+                    game:GetService('RunService').Heartbeat:wait()
+                    cam:Stop()
+                    Rig.activeController.attacking = false
+                    Rig.activeController.timeToNextAttack = 0
+                    Rig.activeController.active = false
+                    Rig.activeController.hitboxMagnitude = 350
+                    Rig.activeController.increment = 4
+                    Rig.activeController.humanoid.AutoRotate = true
+                    Rig.activeController.blocking = false
+                    Rig.activeController.equipped = false
+                    Rig.activeController.timeToNextBlock = 0
+                    Rig.activeController.focusStart = 0
+                end)
+            end
+        end)
+_G.AutoAttack = vu
+if _G.AutoAttack == true then
+while _G.AutoAttack do wait()
+    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+    game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+end
+end
+end)
+spawn(function()
+    if game:GetService("ReplicatedStorage").Assets:FindFirstChild("SlashHit") then
+        if game:GetService("Workspace")["_WorldOrigin"]:FindFirstChild("Sounds") then
+            game:GetService("ReplicatedStorage").Assets["SlashHit"]:Destroy()
+            game:GetService("Workspace")["_WorldOrigin"].Sounds:Destroy()
+        end
+    end
+end)
+
+spawn(function()
+    game:GetService('RunService').Stepped:Connect(function()
+        for i, v in pairs(game:GetService("Workspace")["_WorldOrigin"]:GetChildren()) do
+            if v.Name == "CurvedRing" or v.Name == "SwordSlash" or v.Name == "SlashHit" then
+                    v:Destroy()
+            end
+        end
+    end)
+end)
 end)
 
 	spawn(function()
@@ -2560,12 +2609,12 @@ function autofarm()
 										spawn(function()
 											if game:GetService("Workspace").Enemies:FindFirstChild(Ms) and v.Humanoid.Health > 0 and v:FindFirstChild("Humanoid") then
 												if LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find(NameMon) then
-													totarget(v.HumanoidRootPart.CFrame * CFrame.new(1,20,1))
+													totarget(v.HumanoidRootPart.CFrame * CFrame.new(1,30,1))
 													PosHee = v.HumanoidRootPart.CFrame
 													EquipWeapon(_G.SelectWeapon)
 													PosHee = v.HumanoidRootPart.CFrame
 													v.HumanoidRootPart.CanCollide = false
-													v.HumanoidRootPart.Size = Vector3.new(50, 50, 50)
+													v.HumanoidRootPart.Size = Vector3.new(30,30,30)
 													StatrMagnet = true
 												else
 													StopTween()
@@ -2709,12 +2758,15 @@ if _G.MobAura == true then
 while _G.MobAura do wait()
 for i,we in pairs(game.Workspace.Enemies:GetDescendants()) do
 if we.Name == "HumanoidRootPart" then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,30,3)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,30,3)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,50,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,50,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,50,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,50,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,50,0)
 local RigC = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework) 
 kkii = require(game.ReplicatedStorage.Util.CameraShaker) 
 kkii:Stop()
-RigC.activeController.hitboxMagnitude = 60
+RigC.activeController.hitboxMagnitude = 350
 RigC.activeController.timeToNextAttack = 0.5
 game:GetService'VirtualUser':CaptureController()
 game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
@@ -2730,12 +2782,12 @@ if _G.MobAuraT == true then
 while _G.MobAuraT do wait()
 for i,we in pairs(game.Workspace.Enemies:GetDescendants()) do
 if we.Name == "HumanoidRootPart" then
-function TP(P1,P2)
+    function TP(P1,P2)
     local Distance = (P1 - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
     if Distance < 1000 then
-        Speed = 150
+        Speed = 450
     elseif Distance >= 1000 then
-        Speed = 350
+        Speed = 300
     end
     game:GetService("TweenService"):Create(
         game.Players.LocalPlayer.Character.HumanoidRootPart,
@@ -2743,16 +2795,53 @@ function TP(P1,P2)
         {CFrame = P2}
     ):Play()
     wait(Distance/Speed)
-
 end
-TP(Vector3.new(-1193.0433349609, 4.7520503997803, 3870.5397949219), we.CFrame * CFrame.new(0,30,3))
+
+TP(we.Position, we.CFrame * CFrame.new(0,30,3))
 local RigC = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework) 
 kkii = require(game.ReplicatedStorage.Util.CameraShaker) 
 kkii:Stop()
-RigC.activeController.hitboxMagnitude = 60
+RigC.activeController.hitboxMagnitude = 350
 RigC.activeController.timeToNextAttack = 0.5
 game:GetService'VirtualUser':CaptureController()
 game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+end
+end
+end
+end
+end)
+page3:Toggle("AutoNewWorld",nil,function(vu)
+_G.AutoNew = vu
+_G.FastAttk = vu
+_G.AutoAttack = vu
+if _G.AutoNew == true then
+    function TP(P1,P2)
+    local Distance = (P1 - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+    if Distance < 1000 then
+        Speed = 450
+    elseif Distance >= 1000 then
+        Speed = 300
+    end
+    game:GetService("TweenService"):Create(
+        game.Players.LocalPlayer.Character.HumanoidRootPart,
+        TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),
+        {CFrame = P2}
+    ):Play()
+    wait(Distance/Speed)
+end
+
+TP(Vector3.new(4851.80762, 5.65142918, 718.428589), CFrame.new(4851.80762, 5.65142918, 718.428589, 0.441268653, 5.07424396e-08, -0.897375047, 5.83300119e-09, 1, 5.94136864e-08, 0.897375047, -3.1451787e-08, 0.441268653))
+wait(1)
+TP(Vector3.new(1348.4541015625, 37.349327087402, -1326.1431884766), CFrame.new(1348.4541, 37.3493271, -1326.14319, 0.433914214, 7.87892418e-08, 0.900954187, -6.0377225e-08, 1, -5.83722333e-08, -0.900954187, -2.90685715e-08, 0.433914214))
+wait(1)
+    _G.KillMob = vu
+if _G.KillMob == true then
+while _G.KillMob do wait()
+local Mbnm = "Ice Admiral [Lv. 700] [Boss]"
+for i,we in pairs(game.Workspace.Enemies[Mbnm]:GetDescendants()) do
+if we.Name == "HumanoidRootPart" then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,30,0)
+end
 end
 end
 end
@@ -2767,20 +2856,6 @@ if _G.AutoEquiped then
 pcall(function()
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(MobWeapon))
 end)
-end
-end
-end)
-page4:Toggle("GunMasteryFarm",nil,function(vu)
-    _G.MobAura = vu
-    _G.AutoEquiped = vu
-if _G.MobAura == true then
-while _G.MobAura do wait()
-for i,we in pairs(game.Workspace.Enemies:GetDescendants()) do
-if we.Name == "HumanoidRootPart" then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,30,3)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = we.CFrame * CFrame.new(0,30,3)
-end
-end
 end
 end
 end)
